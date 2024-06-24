@@ -1,6 +1,5 @@
 package com.fnf.eccloudtaskv2;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -14,11 +13,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableBatchProcessing
-@RequiredArgsConstructor
 public class TaskletConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+
+    public TaskletConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.stepBuilderFactory = stepBuilderFactory;
+    }
 
 
     @Bean

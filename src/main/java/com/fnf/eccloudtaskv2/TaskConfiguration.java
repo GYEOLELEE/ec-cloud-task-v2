@@ -1,29 +1,21 @@
 package com.fnf.eccloudtaskv2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.cloud.task.configuration.EnableTask;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.task.configuration.DefaultTaskConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
 @Configuration
-@EnableTask
 public class TaskConfiguration {
 
+    @Qualifier("springDatasource")
     @Autowired
-    private DataSource dataSource;
-
+    private DataSource datasource;
     @Bean
-    public CommandLineRunner commandLineRunner() {
-        return args -> {
-            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-            jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS " +
-                    "BILL_STATEMENTS ( id int, " +
-                    "first_name varchar(50), last_name varchar(50), " +
-                    "minutes int,data_usage int, bill_amount double)");
-        };
+    public DefaultTaskConfigurer taskConfigurer() {
+        return new DefaultTaskConfigurer(datasource);
     }
 }
